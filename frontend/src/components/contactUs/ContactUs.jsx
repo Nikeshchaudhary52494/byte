@@ -5,6 +5,11 @@ import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { STATUSES } from '../../store/statuses';
 import Loader from '../layout/Loader/Loader';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
+import { Textarea } from '../ui/textarea';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
+
 const ContactUs = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -34,25 +39,37 @@ const ContactUs = () => {
         return <Loader />
 
     return (
-        <div className='fixed inset-0 z-10 flex items-center justify-center bg-slate-900 text-white'>
-            <div className='bg-slate-800 rounded-md p-5 w-[90%] max-w-md'>
-                <h3 className="text-cyan-500 font-bold text-xl mb-4">Contact Us</h3>
-                <form onSubmit={handleSubmit}>
-                    <textarea
-                        className='outline-none resize-none text-black rounded-sm p-2 my-2 w-full'
-                        rows="5"
-                        placeholder="Write your message here..."
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                    ></textarea>
-                    <br />
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button>
+                    Contact Us
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>
+                        Contact Us
+                    </DialogTitle>
+                    <DialogDescription>
 
-                    {/* Submit button */}
-                    <button className='bg-blue-500 p-2 rounded-md' type="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-
+                    </DialogDescription>
+                </DialogHeader>
+                <Textarea
+                    rows="5"
+                    placeholder="Write your message here..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                />
+                <Separator />
+                <DialogFooter>
+                    <Button
+                        className="disabled:cursor-not-allowed"
+                        disabled={message.trim().length < 10} onClick={handleSubmit}>
+                        Send
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     );
 }
 

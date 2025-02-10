@@ -7,7 +7,7 @@ import {
 
 const ContactMe = () => {
     return (
-        <div className="flex  md:flex-col text-3xl gap-5">
+        <div className="flex gap-5 text-3xl md:flex-col">
             <Link className="flex items-center" to="https://www.instagram.com/nikeshchaudhary52494/">
                 <AiOutlineInstagram /><span className="hidden text-xl md:block">Instagram</span>
             </Link>

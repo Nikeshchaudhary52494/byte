@@ -19,12 +19,10 @@ const NavOptions = ({ toggle, setToggle = () => { } }) => {
       to: "/cart",
       name: "Cart"
     }, {
-      to: "/contactus",
-      name: "Contact Us"
-    }, {
       to: "/aboutme",
       name: "About Me"
     }];
+
   if (user.role === "admin") {
     navOptions = [{
       to: "/",
@@ -51,7 +49,7 @@ const NavOptions = ({ toggle, setToggle = () => { } }) => {
               to={navOption.to}
               state={location.pathname}
               key={navOption.to}>
-              <li className={`hover:ml-1 lg:hover:ml-0 lg:hover:font-normal lg:hover:bg-slate-600 px-2 rounded-full hover:font-bold duration-500`}>
+              <li className={`hover:ml-1 lg:hover:ml-0 lg:hover:font-normal lg:hover:text-white lg:hover:bg-slate-600 px-4 py-1 rounded-sm hover:font-bold duration-200`}>
                 {navOption.name}
               </li>
             </Link>
