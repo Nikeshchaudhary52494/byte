@@ -32,23 +32,36 @@ class ApiFeatures {
     const condition = this.querySrt.condition
       ? { itemCondition: this.querySrt.condition }
       : {};
-
     this.query = this.query.find({ ...condition });
     return this;
   }
-  // Filter
+
+  // General Filters
   filter() {
     const copyQueryStr = { ...this.querySrt };
 
-    // Removing some fields for category
+    // Removing fields not needed for filtering
     const removeFields = ["keyword", "page", "limit"];
     removeFields.forEach((key) => delete copyQueryStr[key]);
 
-    // filter for Price and Rating
+    // Formatting MongoDB comparison operators
     let queryStr = JSON.stringify(copyQueryStr);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
+
     this.query = this.query.find(JSON.parse(queryStr));
     return this;
   }
+
+  // Pagination
+  paginate() {
+    const page = parseInt(this.querySrt.page, 10) || 1;
+    const limit = parseInt(this.querySrt.limit, 10) || 8;
+
+    const skip = (page - 1) * limit;
+
+    this.query = this.query.skip(skip).limit(limit);
+    return this;
+  }
 }
+
 module.exports = ApiFeatures;

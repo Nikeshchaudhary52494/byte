@@ -11,7 +11,7 @@ app.use(fileUpload());
 
 app.use(cors({
     origin: (origin, callback) => {
-        const allowedOrigins = ['http://localhost:3000', 'https://byte-ecommerce.vercel.app'];
+        const allowedOrigins = ['http://localhost:5173', 'https://byte-ecommerce.vercel.app'];
         const isAllowedOrigin = allowedOrigins.includes(origin) || !origin;
 
         if (isAllowedOrigin) {

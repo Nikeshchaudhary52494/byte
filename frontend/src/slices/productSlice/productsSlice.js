@@ -6,6 +6,8 @@ const productSlice = createSlice({
     name: 'products',
     initialState: {
         data: [],
+        totalPages: 1,
+        currentPage: 1,
         productDetails: {},
         status: STATUSES.IDLE,
         productreviewsData: [],
@@ -24,7 +26,10 @@ const productSlice = createSlice({
         },
         setFilters: (state, action) => {
             state.filters = action.payload;
-        }
+        },
+        setCurrentPage: (state, action) => {
+            state.currentPage = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -32,7 +37,8 @@ const productSlice = createSlice({
                 state.status = STATUSES.LOADING;
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
-                state.data = action.payload;
+                state.data = action.payload.products;
+                state.totalPages = action.payload.totalPages;
                 state.status = STATUSES.IDLE;
             })
             .addCase(fetchProducts.rejected, (state, action) => {
@@ -82,11 +88,20 @@ const productSlice = createSlice({
 });
 export default productSlice.reducer;
 
-export const fetchProducts = createAsyncThunk('products/fetch',
-    async () => {
-        const { data } = await axiosInstance.get(`/api/v1/products`);
-        return data.products;
-    });
+export const fetchProducts = createAsyncThunk(
+    "products/fetch",
+    async ({ page = 1, limit = 8 }, { rejectWithValue }) => {
+        try {
+            const { data } = await axiosInstance.get(`/api/v1/products?page=${page}&limit=${limit}`);
+            return {
+                products: data.products,
+                totalPages: Math.ceil(data.productCount / limit), // Calculate total pages
+            };
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Something went wrong");
+        }
+    }
+);
 
 export const fetchProducts2 = createAsyncThunk('products/fetch',
     async ({ keyword = "", price = [0, 2500], categoryName, ratings = 0, itemCondition = "" }) => {
@@ -154,4 +169,4 @@ export const addReview = createAsyncThunk(
         }
     }
 );
-export const { resetError, resetIsReviewAdded, setCategory, setFilters } = productSlice.actions;
+export const { resetError, resetIsReviewAdded, setCategory, setFilters, setCurrentPage } = productSlice.actions;
