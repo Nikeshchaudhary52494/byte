@@ -12,6 +12,14 @@ const productSlice = createSlice({
         status: STATUSES.IDLE,
         productreviewsData: [],
         error: null,
+        filters: {
+            keyword: "",
+            minPrice: 0,
+            maxPrice: 2500,
+            ratings: 0,
+            itemCondition: "",
+            categoryName: "",
+        },
     },
     reducers: {
         resetError: (state, action) => {
@@ -21,11 +29,8 @@ const productSlice = createSlice({
         resetIsReviewAdded: (state, action) => {
             state.isReviewAdded = null;
         },
-        setCategory: (state, action) => {
-            state.categoryName = action.payload;
-        },
         setFilters: (state, action) => {
-            state.filters = action.payload;
+            state.filters = { ...state.filters, ...action.payload };
         },
         setCurrentPage: (state, action) => {
             state.currentPage = action.payload;
@@ -33,16 +38,17 @@ const productSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchProducts.pending, (state, action) => {
+            .addCase(fetchProducts.pending, (state) => {
                 state.status = STATUSES.LOADING;
             })
             .addCase(fetchProducts.fulfilled, (state, action) => {
+                state.status = STATUSES.IDLE;
                 state.data = action.payload.products;
                 state.totalPages = action.payload.totalPages;
-                state.status = STATUSES.IDLE;
             })
             .addCase(fetchProducts.rejected, (state, action) => {
                 state.status = STATUSES.ERROR;
+                state.error = action.payload;
             })
             .addCase(getProductDetails.pending, (state, action) => {
                 state.status = STATUSES.LOADING;
@@ -90,12 +96,24 @@ export default productSlice.reducer;
 
 export const fetchProducts = createAsyncThunk(
     "products/fetch",
-    async ({ page = 1, limit = 8 }, { rejectWithValue }) => {
+    async (_, { getState, rejectWithValue }) => {
         try {
-            const { data } = await axiosInstance.get(`/api/v1/products?page=${page}&limit=${limit}`);
+            const { filters, currentPage } = getState().products;
+            let link = `/api/v1/products?page=${currentPage}&limit=8&keyword=${filters.keyword}&ratings[gte]=${filters.ratings}&price[gte]=${filters.minPrice}&price[lte]=${filters.maxPrice}`;
+
+            if (filters.categoryName) {
+                link += `&category=${filters.categoryName}`;
+            }
+
+            if (filters.itemCondition) {
+                link += `&itemCondition=${filters.itemCondition}`;
+            }
+
+            const { data } = await axiosInstance.get(link);
+            console.log(link);
             return {
                 products: data.products,
-                totalPages: Math.ceil(data.productCount / limit), // Calculate total pages
+                totalPages: Math.ceil(data.filteredProductsCount / 8),
             };
         } catch (error) {
             return rejectWithValue(error.response?.data || "Something went wrong");
@@ -103,25 +121,6 @@ export const fetchProducts = createAsyncThunk(
     }
 );
 
-export const fetchProducts2 = createAsyncThunk('products/fetch',
-    async ({ keyword = "", price = [0, 2500], categoryName, ratings = 0, itemCondition = "" }) => {
-        const link = `/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&ratings[gte]=${ratings}`;
-        if (categoryName && itemCondition === "") {
-            const { data } = await axiosInstance.get(`${link}&category=${categoryName}`);
-            return data.products;
-        }
-        if (categoryName) {
-            const { data } = await axiosInstance.get(`${link}&category=${categoryName}&itemCondition=${itemCondition}`);
-            return data.products;
-        }
-        if (itemCondition === "") {
-            const { data } = await axiosInstance.get(link);
-            return data.products;
-        }
-        const { data } = await axiosInstance.get(`${link}&itemCondition=${itemCondition}`);
-        return data.products;
-    }
-);
 export const getProductDetails = createAsyncThunk('productDetails/fetch', async ({ id }) => {
     try {
         const response = await axiosInstance.get(`/api/v1/product/${id}`);

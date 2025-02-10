@@ -3,7 +3,7 @@ import Home from "./components/Home/Home"
 import ProductDetails from "./components/Product/ProductDetails"
 import Cart from "./components/Cart/Cart"
 import React from "react";
-import Products from "./components/Product/Products"
+import Products from "./components/Product/Products";
 import CategoriesPage from "./components/Product/CategoryPage"
 import Login from "./components/User/Login"
 import SignUp from "./components/User/SignUp"
@@ -51,8 +51,7 @@ function App() {
           <Route path="orderplaced" element={<PaymentSucessfull />} />
         </Route>
         <Route path="products/:keyword" element={<Products />} />
-        <Route path="products" element={<Products />}>
-        </Route>
+        <Route path="products" element={<Products />} />
         < Route path="user" >
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<SignUp />} />

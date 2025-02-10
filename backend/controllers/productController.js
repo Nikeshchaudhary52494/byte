@@ -31,24 +31,26 @@ exports.createProduct = catchAsyncErrors(async (req, res, next) => {
 
 // Get All product
 exports.getAllProducts = catchAsyncErrors(async (req, res) => {
-  const productCount = await Product.countDocuments();
-
-  const apiFeature = new ApiFeatures(Product.find(), req.query)
+  let apiFeature = new ApiFeatures(Product.find(), req.query)
     .search()
     .filter()
-    .condition()
-    .paginate();
+    .condition();
+
+  const filteredProductsCount = await apiFeature.query.clone().countDocuments(); // Get count after filtering
+
+  apiFeature = apiFeature.paginate();
 
   const products = await apiFeature.query;
 
   res.status(200).json({
     success: true,
     products,
-    productCount,
+    filteredProductsCount,
     page: parseInt(req.query.page, 10) || 1,
     limit: parseInt(req.query.limit, 10) || 8,
   });
 });
+
 
 
 exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {

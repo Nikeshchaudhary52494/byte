@@ -1,7 +1,7 @@
 import React from 'react'
 import { motion } from "framer-motion"
 import { useDispatch } from 'react-redux'
-import { fetchProducts2, setCategory } from '../../slices/productSlice/productsSlice';
+import { fetchProducts, setFilters } from '../../slices/productSlice/productsSlice';
 import { useNavigate } from 'react-router-dom';
 import book from "../../assets/book.jpg"
 import phone from "../../assets/iphone.webp"
@@ -60,8 +60,8 @@ const CategoriesList = () => {
     }
     ]
     const handleCategoryClick = (categoryName) => {
-        dispatch(fetchProducts2({ categoryName }));
-        dispatch(setCategory(categoryName));
+        dispatch(fetchProducts({ categoryName }));
+        dispatch(setFilters({ categoryName }));
         navigate("/products")
     };
 
