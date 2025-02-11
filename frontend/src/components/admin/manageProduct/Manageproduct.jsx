@@ -8,7 +8,7 @@ const Manageproduct = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className='min-h-screen pb-10'>
+      <div className='h-full'>
         <DashboardNavigation />
         <div className='max-w-5xl mx-auto mb-20'>
           <Button

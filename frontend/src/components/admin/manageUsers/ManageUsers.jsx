@@ -3,7 +3,7 @@ import ManageUserTable from './ManageUserTable';
 const ManageUsers = () => {
   return (
     <>
-      <div className='min-h-screen pb-20'>
+      <div className='h-full'>
         <DashboardNavigation />
         <div className='max-w-5xl mx-auto'>
           <div className='mx-5 mb-20'>

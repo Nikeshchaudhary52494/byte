@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
-const NavOptions = ({ toggle, setToggle = () => { } }) => {
+const NavOptions = ({ setSheetOpen = () => { } }) => {
   const location = useLocation();
   const { user } = useSelector((state) => state.user);
   const isMediumScreen = window.innerWidth >= 768;
@@ -45,7 +45,7 @@ const NavOptions = ({ toggle, setToggle = () => { } }) => {
       {
         navOptions.map((navOption) => (
           navOption.name !== "Categories" || !isMediumScreen ? (
-            <Link onClick={() => setToggle(!toggle)}
+            <Link onClick={() => setSheetOpen(false)}
               to={navOption.to}
               state={location.pathname}
               key={navOption.to}>

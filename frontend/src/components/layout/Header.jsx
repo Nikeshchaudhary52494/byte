@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import NavOptions from "./NavOptions.jsx";
 import SearchBar from "./SearchBar.jsx"
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -16,12 +16,16 @@ import {
 } from "react-icons/ai";
 import { FaUser } from "react-icons/fa";
 import ContactUs from "../contactUs/ContactUs.jsx";
+import { Avatar, AvatarFallback } from "../ui/avatar.jsx";
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { User } from "lucide-react";
 const Header = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const { isAuthenticated, user } = useSelector((state) => state.user)
+  const [sheetOpen, setSheetOpen] = useState(false);
 
   return (
     <nav className="bg-slate-200">
@@ -32,33 +36,30 @@ const Header = () => {
             <SearchBar />
           </div>
 
-          {/* signin button */}
           <div className="flex items-center gap-10">
-            {
-
-              isAuthenticated ? (
-                <div onClick={() => navigate("/user/profile", { state: location.pathname })} className='w-10 h-10 overflow-hidden rounded-full cursor-pointer'>
-                  <img
-                    className='object-cover w-full h-full' src={user.avatar.url}
-                    alt="user profile" />
+            {isAuthenticated ? (
+              <Avatar className="cursor-pointer" onClick={() => navigate("/user/profile", { state: location.pathname })}>
+                <AvatarImage src={user?.avatar?.url} alt="User profile" />
+                <AvatarFallback>
+                  <User size={28} />
+                </AvatarFallback>
+              </Avatar>
+            ) : (
+              <Link to="/user/login" state={location.pathname}>
+                <div className="flex items-center h-10 text-xl cursor-pointer">
+                  <FaUser className="text-sm" />
+                  <span className="text-xs xs:text-base">Login</span>
                 </div>
-              ) : (
-                <Link to="/user/login" state={location.pathname}>
-                  <div className="flex items-center h-10 text-xl cursor-pointer">
-                    <FaUser className="text-sm" />
-                    <span className="text-xs xs:text-base">Login</span>
-                  </div>
-                </Link>
-              )
-            }
+              </Link>
+            )}
 
-            <Sheet>
+            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
               <SheetTrigger>
                 <AiOutlineMenu className="text-2xl transition-transform duration-200 cursor-pointer lg:hidden hover:scale-110" />
               </SheetTrigger>
               <SheetContent className="p-6 bg-[#E2E8F0]">
                 <ul className="flex flex-col gap-10 mt-10 text-2xl font-semibold text-black">
-                  <NavOptions />
+                  <NavOptions setSheetOpen={setSheetOpen} />
                 </ul>
               </SheetContent>
             </Sheet>

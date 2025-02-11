@@ -31,7 +31,7 @@ const Myorders = () => {
                 <div className="flex space-x-2">
                     <button
                         onClick={() => handleViewDetails(row.original._id)}
-                        className="text-blue-500 hover:underline focus:outline-none mx-2"
+                        className="mx-2 text-blue-500 hover:underline focus:outline-none"
                     >
                         <FaList />
                     </button>
@@ -54,15 +54,15 @@ const Myorders = () => {
         return (
             <>
                 <MetaData title={"MyOrders"} />
-                <div className="sm:px-20 px-5 pb-20 min-h-screen bg-slate-900">
-                    <h3 className='text-white font-bold text-3xl py-5'>My Orders</h3>
+                <div className="h-full max-w-6xl px-5 pb-20 mx-auto sm:px-20">
+                    <h3 className='py-5 text-3xl font-bold'>My Orders</h3>
                     <div className='overflow-x-auto'>
-                        <table {...getTableProps()} className="min-w-full bg-white border border-gray-200">
+                        <table {...getTableProps()} className="min-w-full border">
                             <thead>
                                 {headerGroups.map(headerGroup => (
-                                    <tr {...headerGroup.getHeaderGroupProps()} className="bg-gray-100">
+                                    <tr {...headerGroup.getHeaderGroupProps()} className="bg-secondary">
                                         {headerGroup.headers.map(column => (
-                                            <th {...column.getHeaderProps()} className="py-2 px-4 border-b border-gray-200 text-start">
+                                            <th {...column.getHeaderProps()} className="px-4 py-2 border text-start">
                                                 {column.render('Header')}
                                             </th>
                                         ))}
@@ -74,9 +74,9 @@ const Myorders = () => {
                                     prepareRow(row);
                                     const rowClassName = row.original.orderStatus === 'Delivered' ? 'bg-green-200' : '';
                                     return (
-                                        <tr {...row.getRowProps()} className={`border-b border-gray-200 ${rowClassName}`}>
+                                        <tr {...row.getRowProps()} className={`border ${rowClassName}`}>
                                             {row.cells.map(cell => (
-                                                <td {...cell.getCellProps()} className="py-2 px-4">
+                                                <td {...cell.getCellProps()} className="px-4 py-2">
                                                     {cell.render('Cell')}
                                                 </td>
                                             ))}

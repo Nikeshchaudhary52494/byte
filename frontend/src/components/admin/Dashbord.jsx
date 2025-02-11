@@ -32,7 +32,7 @@ const Dashbord = () => {
     return (
         <>
             <MetaData title={"Dashboard"} />
-            <div className='absolute top-0 z-10 w-screen min-h-screen py-20 bg-secondary'>
+            <div className='absolute top-0 z-10 w-full h-full bg-secondary'>
                 <FaHome onClick={() => navigate("/")} className='absolute text-3xl cursor-pointer left-5 top-5 ' />
                 <div className='flex items-center justify-center gap-4 mt-10 text-2xl font-bold'>
                     <MdDashboard />

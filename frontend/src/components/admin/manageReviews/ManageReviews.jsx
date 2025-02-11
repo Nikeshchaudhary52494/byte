@@ -20,7 +20,7 @@ const ManageReviews = () => {
 
   return (
     <>
-      <div className='min-h-screen pb-10 bg-background'>
+      <div className='h-full bg-background'>
         <DashboardNavigation />
         <div className='flex flex-col items-center'>
           <p className='text-3xl font-bold'>View Reviews</p>

@@ -1,15 +1,10 @@
-import React from "react";
-import { InfinitySpin } from "react-loader-spinner";
+import { Loader2 } from "lucide-react";
 
 const Loader = () => {
   return (
     <>
-      <div className="w-full grid place-content-center h-screen top-0 z-50 fixed bg-slate-900 ">
-        <InfinitySpin
-          class="text-blue-500"
-          width='200'
-          color='#00BCD4'
-        />
+      <div className="fixed top-0 z-50 grid w-full h-full text-primary place-content-center bg-background ">
+        <Loader2 className="duration-1000 animate-spin" />
       </div>
     </>
   );

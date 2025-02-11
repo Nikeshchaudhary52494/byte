@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../layout/Loader/Loader';
@@ -7,6 +6,10 @@ import { STATUSES } from '../../store/statuses';
 import { loadUser, resetError, resetIsProfileUpdated, updateUserProfile } from '../../slices/userSlice/userSlice';
 import { toast } from "react-toastify";
 import BackButton from '../layout/BackButton';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Label } from '../ui/label';
 
 const UpdateUserProfile = () => {
     const { user: data, status, isProfileUpdated, error } = useSelector((state) => state.user);
@@ -78,58 +81,68 @@ const UpdateUserProfile = () => {
         return <Loader />
 
     return (
-        <div className='flex bg-slate-900 overflow-auto h-screen fixed z-10 top-0 left-0 w-screen justify-center items-center'>
+        <div className='fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-green-100 to-slate-50'>
             <BackButton locationState={location.state} />
-            <div className="bg-slate-800 px-5 py-10 rounded-lg text-white">
-                <h3 className="text-xl mb-4 text-cyan-500 font-bold">Edit Profile Details</h3>
-                <form className="flex gap-4 text-black flex-col" onSubmit={handleSubmit}>
-                    <input
-                        required
-                        className="w-[300px] outline-none p-3 rounded-md"
-                        type="email"
-                        name="email"
-                        placeholder="Email"
-                        value={user.email}
-                        onChange={registerDataChange}
-                    />
-                    <input
-                        required
-                        className="w-[300px] outline-none p-3 rounded-md"
-                        type="text"
-                        name="name"
-                        placeholder="Name"
-                        value={user.name}
-                        onChange={registerDataChange}
-                    />
-                    <div className='flex justify-between border rounded-md bg-slate-700 p-2 items-center'>
-
-                        <div className='w-14 h-14 rounded-full overflow-hidden'>
-                            <img className='object-cover w-full h-full'
-                                src={avatarPreview}
-                                alt="Avatar" />
+            <Card>
+                <CardHeader>
+                    <CardTitle>
+                        Edit Profile Details
+                    </CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <form className="flex flex-col gap-4 text-black" onSubmit={handleSubmit}>
+                        <Label htmlFor="email">Email</Label>
+                        <Input
+                            required
+                            id="email"
+                            className="w-[300px] outline-none p-3 rounded-md"
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={user.email}
+                            onChange={registerDataChange}
+                        />
+                        <Label htmlFor="name">Email</Label>
+                        <Input
+                            required
+                            className="w-[300px] outline-none p-3 rounded-md"
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Name"
+                            value={user.name}
+                            onChange={registerDataChange}
+                        />
+                        <div className="flex items-center justify-between p-2 mx-2 border rounded-md bg-[#E7E6E9]">
+                            <div className="overflow-hidden rounded-full w-14 h-14">
+                                <img
+                                    className="object-cover w-full h-full"
+                                    src={avatarPreview}
+                                    alt="Avatar"
+                                />
+                            </div>
+                            <label
+                                htmlFor="fileInput"
+                                className="px-4 py-2 text-white bg-blue-500 rounded-md cursor-pointer"
+                            >
+                                <span className="hidden md:inline">Choose File</span>
+                                <span className="md:hidden">Upload</span>
+                            </label>
+                            <input
+                                id="fileInput"
+                                className="hidden"
+                                type="file"
+                                name="image"
+                                accept="image/*"
+                                onChange={registerDataChange}
+                            />
                         </div>
-                        <label for="fileInput" class="cursor-pointer bg-blue-500 
-text-white py-2 px-4  rounded-md">
-                            <span class="hidden md:inline">Choose File</span>
-                            <span class="md:hidden">Upload</span>
-                        </label>
-                        <input
-                            id='fileInput'
-                            className='hidden '
-                            type="file"
-                            name="avatar"
-                            accept="image/*"
-                            onChange={registerDataChange} />
-                    </div>
-                    <motion.input
-                        type="submit"
-                        value="Update"
-                        whileTap={{ scale: 0.9 }}
-                        transition={{ duration: 0.4 }}
-                        className="w-[300px] text-white font-bold p-3 hover:bg-teal-700 bg-teal-600 rounded-lg"
-                    />
-                </form>
-            </div>
+                        <Button type="submit">
+                            Update
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     );
 };
