@@ -5,12 +5,12 @@ import { addToCart } from "../../slices/cartSlice/cartSlice"
 import { useParams } from "react-router-dom";
 import Loader from "../layout/Loader/Loader";
 import Carousel from "react-material-ui-carousel"
-import ReactStars from "react-rating-stars-component"
 import ReviewCard from "./review/ReviewCard"
 import AddReview from "./review/AddReview";
 import { toast } from 'react-toastify';
 import { getProductDetails } from "../../slices/productSlice/productsSlice";
 import MetaData from "../layout/MetaData";
+import RatingStars from "./review/RatingStars";
 const ProductDetails = () => {
 
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -22,15 +22,6 @@ const ProductDetails = () => {
 
   const [toggle, setToggle] = useState(false);
   const [numberOfProduct, setNumberOfProduct] = useState(1);
-
-  const options = {
-    edit: false,
-    color: "rgba(20,20,20,0.1)",
-    activeColor: "tomato",
-    size: window.innerWidth < 600 ? 20 : 25,
-    value: product.ratings,
-    isHalf: true,
-  };
 
   const handelAddToCart = (userId, productId, quantity) => {
     if (!isAuthenticated) {
@@ -89,7 +80,7 @@ const ProductDetails = () => {
   return (
     < >
       <MetaData title={"Details"} />
-      <div className=" max-w-5xl mx-auto p-4 flex items-center lg:flex-row lg:items-start flex-col lg:items-top gap-10 m-5 justify-center ">
+      <div className="flex flex-col items-center justify-center max-w-5xl gap-10 p-4 m-5 mx-auto lg:flex-row lg:items-start lg:items-top">
 
         {/* Carousel section */}
         <div className=" md:w-1/2 w-[75%]" >
@@ -103,12 +94,12 @@ const ProductDetails = () => {
         </div>
 
         {/* Details section */}
-        <div className=" p-5 scrollbar border shadow-lg xs:w-3/4 md:w-1/2">
+        <div className="p-5 border shadow-lg scrollbar xs:w-3/4 md:w-1/2">
           <h2 className="text-2xl" >{product.name}</h2>
-          <p onDoubleClick={handleDoubleClick} className="text-sm font-thin text-slate-600 border-b border-slate-400 mb-4 pb-4">#{product._id}</p>
-          <ReactStars {...options} />
-          <p className="border-b border-slate-400 mb-4 pb-4" >({product.numberOfReviews} Reviews)</p>
-          <h2 className="text-orange-500 text-3xl font-bold">${product.price} <br /><p className="text-sm font-thin text-slate-600 border-b border-slate-400 mb-4 pb-4" > Including all taxes</p> </h2>
+          <p onDoubleClick={handleDoubleClick} className="pb-4 mb-4 text-sm font-thin border-b text-slate-600 border-slate-400">#{product._id}</p>
+          <RatingStars rating={product.ratings} />
+          <p className="pb-4 mb-4 border-b border-slate-400" >({product.numberOfReviews} Reviews)</p>
+          <h2 className="text-3xl font-bold text-orange-500">${product.price} <br /><p className="pb-4 mb-4 text-sm font-thin border-b text-slate-600 border-slate-400" > Including all taxes</p> </h2>
           <div className="flex flex-col items-center " >
 
             {/* Add to cart-button */}
@@ -134,7 +125,7 @@ const ProductDetails = () => {
               }}
             >Add to Cart</button>
           </div>
-          <p className="border-b border-slate-400 mb-4 pb-4 font-bold">Status: <span className={`font-normal ${product.stock < 1 ? `text-red-400` : 'text-green-400'}`}>{`${product.stock < 1 ? `Out of Stock` : `Only ${product.stock} Unit left`}`}</span> </p>
+          <p className="pb-4 mb-4 font-bold border-b border-slate-400">Status: <span className={`font-normal ${product.stock < 1 ? `text-red-400` : 'text-green-400'}`}>{`${product.stock < 1 ? `Out of Stock` : `Only ${product.stock} Unit left`}`}</span> </p>
           <p><span className="text-2xl font-bold" >
             Description:
           </span> <br />
@@ -143,8 +134,8 @@ const ProductDetails = () => {
         </div>
       </div >
 
-      <div className=" w-3/4  max-w-3xl flex p-4 lg:px-12  flex-col gap-2 border-y border-dashed mt-32 mb-10 mx-auto items-center justify-between sm:flex-row ">
-        <h3 className="text-2xl text-center font-medium " >Reviews</h3>
+      <div className="flex flex-col items-center justify-between w-3/4 max-w-3xl gap-2 p-4 mx-auto mt-32 mb-10 border-dashed lg:px-12 border-y sm:flex-row">
+        <h3 className="text-2xl font-medium text-center " >Reviews</h3>
 
         <button className="text-white  font-medium w-[200px] h-[40px] bg-blue-200 rounded-lg" onClick={handelAddReview}> Add Review</button>
         <div className={`inset-0 z-10 fixed flex justify-center items-center bg-black backdrop-filter bg-opacity-50 backdrop-blur-md ${toggle ? `block` : `hidden`}`}>
@@ -155,13 +146,13 @@ const ProductDetails = () => {
       {/* Review section */}
       {
         product.reviews && product.reviews[0] ? (
-          <div className="flex flex-col mb-20 gap-5 items-center justify-center p-4 ">
+          <div className="flex flex-col items-center justify-center gap-5 p-4 mb-20 ">
             {product.reviews && product.reviews.map((review) =>
               <ReviewCard review={review} />
             )}
           </div>
         ) : (
-          <p className="text-center mb-32 text-red-400 font-medium">
+          <p className="mb-32 font-medium text-center text-red-400">
             No Rerview Available
           </p>
         )

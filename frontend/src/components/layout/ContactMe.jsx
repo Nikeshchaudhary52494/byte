@@ -1,21 +1,29 @@
 import { Link } from "react-router-dom";
 import {
     AiOutlineInstagram,
-    AiOutlineTwitter,
     AiOutlineLinkedin,
 } from "react-icons/ai";
+import { FaXTwitter } from "react-icons/fa6";
 
 const ContactMe = () => {
     return (
-        <div className="flex gap-5 text-3xl md:flex-col">
-            <Link className="flex items-center" to="https://www.instagram.com/nikeshchaudhary52494/">
-                <AiOutlineInstagram /><span className="hidden text-xl md:block">Instagram</span>
+        <div className="flex gap-5 text-3xl">
+            <Link
+                className="flex items-center p-2 rounded-full 
+             bg-[#39CCCC]"
+                to="https://www.instagram.com/nikeshchaudhary52494/">
+                <AiOutlineInstagram />
             </Link>
-            <Link className="flex items-center" to="https://www.linkedin.com/in/nikeshchaudhary52494/">
-                <AiOutlineLinkedin /><span className="hidden text-xl md:block">Linkedin</span>
+            <Link
+                className="flex items-center p-2 rounded-full  
+            bg-[#39CCCC]"
+                to="https://www.linkedin.com/in/nikeshchaudhary52494/">
+                <AiOutlineLinkedin />
             </Link>
-            <Link className="flex items-center" to="https://twitter.com/nikesh52494">
-                <AiOutlineTwitter /><span className="hidden text-xl md:block">Twitter</span>
+            <Link
+                className="flex items-center p-2 rounded-full  bg-[#39CCCC]"
+                to="https://twitter.com/nikesh_003">
+                <FaXTwitter />
             </Link>
         </div>
     )

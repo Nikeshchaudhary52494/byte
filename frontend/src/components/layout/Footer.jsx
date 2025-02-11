@@ -1,20 +1,23 @@
 import React from "react";
 import Logo from "../../assets/byte.png"
 import ContactMe from "./ContactMe";
+import { Separator } from "../ui/separator";
 
 
 const Footer = () => {
   return (
-    <div className="mt-40 bg-slate-800">
-      <div className="flex max-w-5xl p-10 mx-auto justify-between items-center text-white md:flex-row flex-col gap-10 text-center">
-        <div className="flex flex-col items-center md:w-[70%]">
-          <img className="w-40" src={Logo} alt="Byte Logo" />
-          <h1 className="text-4xl font-bold m-2">ECOMMERCE</h1>
-          <p className="italic text-cyan-500 mb-2">Elevating your e-commerce experience with modern interactivity, showcasing how small changes can create a big impact on your lifestyle</p>
-          <p>Copyright 2023 &copy; MeNikeshChaudhary</p>
+    <div className="p-10 mt-40 space-y-4 bg-secondary">
+      <div className="flex justify-between">
+        <div>
+          <img src={Logo} alt="logo" className="w-20" />
+          <p className="text-sm">nikeshchaudhary52494@gmail.com</p>
         </div>
-        <ContactMe />
+        <div>
+          <ContactMe />
+        </div>
       </div>
+      <Separator />
+      <p className="text-sm text-secondary-foreground/50">Copyright 2023 &copy; MeNikeshChaudhary</p>
     </div>
   );
 };

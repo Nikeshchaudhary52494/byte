@@ -1,20 +1,24 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ContactMe from '../layout/ContactMe';
+import React from "react";
+import { Link } from "react-router-dom";
+import ContactMe from "../layout/ContactMe";
 
 const AboutMe = () => {
     return (
-        <div className=" bg-slate-900 fixed top-0 z-10 text-white flex flex-col items-center gap-20 inset-0 text-center p-20">
-            <div>
-                <p className='text-white font-bold '>I am Nikesh Chaudhary, Developer of Byte Ecommerce</p>
-                <Link className='text-cyan-500 ' to="https://nikeshportfolio52494.web.app/">Visit my portfolio</Link>
-            </div>
-            <div>
-                <p className='text-cyan-500 font-bold text-xl mb-5'>Follow Me</p>
+        <div className="fixed inset-0 flex flex-col items-center justify-center p-10 text-center bg-secondary">
+            <div className="flex flex-col items-center space-y-6">
+                <h1 className="text-4xl font-bold">I am Nikesh Chaudhary</h1>
+                <p className="text-lg">Developer of <span className="font-semibold text-[#39CCCC]">Byte Ecommerce</span></p>
+                <Link
+                    to="https://nikeshchaudhary.vercel.app/"
+                    className="text-[#39CCCC] font-medium hover:underline transition-all duration-300"
+                >
+                    Visit my portfolio
+                </Link>
+                <p className="mb-3 text-xl font-semibold text-[#39CCCC]">Follow Me</p>
                 <ContactMe />
             </div>
         </div>
     );
-}
+};
 
 export default AboutMe;
