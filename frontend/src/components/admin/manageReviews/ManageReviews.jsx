@@ -3,6 +3,8 @@ import ManageReviewTable from './ManageReviewTable';
 import { useDispatch } from 'react-redux';
 import { getProductReviews } from '../../../slices/productSlice/productsSlice';
 import DashboardNavigation from '../../layout/DashboardNavigation';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 const ManageReviews = () => {
   const [productId, setProductId] = useState('');
@@ -18,14 +20,14 @@ const ManageReviews = () => {
 
   return (
     <>
-      <div className='pb-10 bg-slate-900 min-h-screen'>
+      <div className='min-h-screen pb-10 bg-background'>
         <DashboardNavigation />
         <div className='flex flex-col items-center'>
-          <p className='font-bold text-3xl text-white'>View Reviews</p>
+          <p className='text-3xl font-bold'>View Reviews</p>
           <form
             className='flex flex-col my-10'
             onSubmit={handleSubmit}>
-            <input
+            <Input
               className='p-2 rounded-md outline-none'
               type="text"
               required
@@ -33,12 +35,12 @@ const ManageReviews = () => {
               value={productId}
               onChange={(e) => setProductId(e.target.value)}
             />
-            <button
+            <Button
               type="submit"
-              className='bg-green-500 w-[100px] text-white p-2 rounded mt-2'
+              className='bg-green-500 hover:bg-green-600 w-[100px] p-2 rounded mt-2'
             >
               View
-            </button>
+            </Button>
           </form>
         </div>
 

@@ -31,7 +31,7 @@ const ManageUserTable = () => {
                             const role = row.original.role === "admin" ? "user" : "admin";
                             handleUpdateClick(row.original._id, role);
                         }}
-                        className="text-blue-500 hover:underline focus:outline-none mx-2"
+                        className="mx-2 text-blue-500 hover:underline focus:outline-none"
                     >
                         <SiTrustpilot />
                     </button>
@@ -49,13 +49,13 @@ const ManageUserTable = () => {
         } = useTable({ columns, data: users });
 
         return (
-            <div className="overflow-x-auto">
-                <table {...getTableProps()} className="min-w-full bg-white border border-gray-200">
+            <div className="overflow-x-auto shadow-lg">
+                <table {...getTableProps()} className="min-w-full">
                     <thead>
                         {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} className="bg-gray-100">
+                            <tr {...headerGroup.getHeaderGroupProps()} className="bg-secondary">
                                 {headerGroup.headers.map(column => (
-                                    <th {...column.getHeaderProps()} className="py-2 px-4 border-b border-gray-200 text-start">
+                                    <th {...column.getHeaderProps()} className="px-4 py-2 border text-start">
                                         {column.render('Header')}
                                     </th>
                                 ))}
@@ -70,10 +70,10 @@ const ManageUserTable = () => {
                             return (
                                 <tr
                                     {...row.getRowProps()}
-                                    className={`border-b border-gray-200 ${isAdmin ? 'bg-green-200' : ''}`}
+                                    className={`border ${isAdmin ? 'bg-green-200' : ''}`}
                                 >
                                     {row.cells.map(cell => (
-                                        <td {...cell.getCellProps()} className="py-2 px-4">
+                                        <td {...cell.getCellProps()} className="px-4 py-2">
                                             {cell.render('Cell')}
                                         </td>
                                     ))}

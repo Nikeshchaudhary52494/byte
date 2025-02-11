@@ -3,6 +3,8 @@ import { MdDelete } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteMessageById, getAllMessages, resetIsMessageDeleted } from '../../slices/contactUsSlice/contactUsSlice';
 import { toast } from 'react-toastify';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
 
 const Messages = () => {
     const { data, isMessageDeleted } = useSelector((state) => state.contactUs);
@@ -18,22 +20,29 @@ const Messages = () => {
         }
     })
     return (
-        <>
-            <div className='bg-slate-600 border p-4 rounded-sm'>
-                <div><p className='text-lg m-1 mb-4'>Messages</p></div>
-                <div>
-                    {
-                        data.map((messsage) => (
-                            <div className='mb-2 bg-slate-500 p-2 text-sm rounded-sm'>
-                                <div className='flex justify-between'> <p className='font-bold text-cyan-500'>{messsage.name}  </p><button className='text-red-500 text-xl' onClick={() => deleteMessage(messsage._id)}><MdDelete /></button></div>
-                                <p className='text-xs'>{messsage.email}</p>
-                                <p>{messsage.message}</p>
+        <Card className="rounded-sm">
+            <CardHeader>
+                <CardTitle>Messages</CardTitle>
+            </CardHeader>
+            <CardContent>
+                {data.length > 0 ? (
+                    data.map((msg) => (
+                        <div key={msg._id} className="py-2 border-b">
+                            <div className="flex items-center justify-between">
+                                <p className="font-semibold">{msg.name}</p>
+                                <Button size="sm" variant="outline" onClick={() => deleteMessage(msg._id)}>
+                                    <MdDelete className='text-red-500' />
+                                </Button>
                             </div>
-                        ))
-                    }
-                </div>
-            </div>
-        </>
+                            <p className="text-xs text-gray-500">{msg.email}</p>
+                            <p>{msg.message}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No messages yet.</p>
+                )}
+            </CardContent>
+        </Card>
     )
 }
 

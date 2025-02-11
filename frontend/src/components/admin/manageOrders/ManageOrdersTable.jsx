@@ -4,8 +4,8 @@ import { useTable } from 'react-table';
 import { useNavigate } from 'react-router-dom';
 import { MdDelete, MdEdit } from "react-icons/md";
 import { deleteOrder, getAllOrders } from '../../../slices/orderSlice/orderSlice';
-import Loader from '../../layout/Loader/Loader';
 import { STATUSES } from '../../../store/statuses';
+import TableSkeletons from '@/components/Skeletons/TableSkeletons';
 
 const ManageOrdersTable = () => {
     let { data, status } = useSelector((state) => state.orders);
@@ -38,7 +38,7 @@ const ManageOrdersTable = () => {
                 <div className="flex space-x-2">
                     <button
                         onClick={() => handleEditClick(row.original._id)}
-                        className="text-blue-500 hover:underline focus:outline-none mx-2"
+                        className="mx-2 text-blue-500 hover:underline focus:outline-none"
                     >
                         <MdEdit />
                     </button>
@@ -63,16 +63,16 @@ const ManageOrdersTable = () => {
         } = useTable({ columns, data });
 
         if (status === STATUSES.LOADING)
-            return <Loader />
+            return <TableSkeletons />
 
         return (
-            <div className="overflow-x-auto">
-                <table {...getTableProps()} className="min-w-full bg-white border border-gray-200">
+            <div className="overflow-x-auto shadow-lg">
+                <table {...getTableProps()} className="min-w-full border border-border">
                     <thead>
                         {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()} className="bg-gray-100">
+                            <tr {...headerGroup.getHeaderGroupProps()} className="bg-secondary">
                                 {headerGroup.headers.map(column => (
-                                    <th {...column.getHeaderProps()} className="py-2 px-4 border-b border-gray-200 text-start">
+                                    <th {...column.getHeaderProps()} className="px-4 py-2 border text-start">
                                         {column.render('Header')}
                                     </th>
                                 ))}
@@ -84,9 +84,9 @@ const ManageOrdersTable = () => {
                             prepareRow(row);
                             const rowClassName = row.original.orderStatus === 'Delivered' ? 'bg-green-200' : '';
                             return (
-                                <tr {...row.getRowProps()} className={`border-b border-gray-200 ${rowClassName}`}>
+                                <tr {...row.getRowProps()} className={`border-b ${rowClassName}`}>
                                     {row.cells.map(cell => (
-                                        <td {...cell.getCellProps()} className="py-2 px-4">
+                                        <td {...cell.getCellProps()} className="px-4 py-2">
                                             {cell.render('Cell')}
                                         </td>
                                     ))}
