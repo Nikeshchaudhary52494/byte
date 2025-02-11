@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { motion } from "framer-motion"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import demoAvatar from "../../assets/userProfile.avif"
 import Logo from "../../assets/byte.png"
@@ -13,6 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Button } from '../ui/button'
+import { Avatar, AvatarImage } from '../ui/avatar'
 
 
 const SignUp = () => {
@@ -82,8 +82,8 @@ const SignUp = () => {
     return (
         <>
             <MetaData title={"SignUp"} />
-            <div className='fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-green-100 to-slate-50'>
-                <Card>
+            <div className='fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-r from-green-600 via-slate-500 to-blue-500'>
+                <Card className="w-[380px] h-full md:h-fit rounded-none md:rounded-lg pt-10 md:pt-0">
                     <CardHeader>
                         <img className="w-24" src={Logo} alt="Byte logo" />
                         <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
@@ -128,14 +128,11 @@ const SignUp = () => {
                                 value={user.password}
                                 onChange={registerDataChange}
                             />
+                            <Label htmlFor="fileInput">User Avatar</Label>
                             <div className="flex items-center justify-between p-2 mx-2 border rounded-md bg-[#E7E6E9]">
-                                <div className="overflow-hidden rounded-full w-14 h-14">
-                                    <img
-                                        className="object-cover w-full h-full"
-                                        src={avatarPreview}
-                                        alt="Avatar"
-                                    />
-                                </div>
+                                <Avatar className="m-2 h-14 w-14">
+                                    <AvatarImage src={avatarPreview} alt="User profile" />
+                                </Avatar>
                                 <label
                                     htmlFor="fileInput"
                                     className="px-4 py-2 text-white bg-blue-500 rounded-md cursor-pointer"

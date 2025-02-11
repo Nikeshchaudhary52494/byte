@@ -68,8 +68,8 @@ const Login = () => {
   return (
     <>
       <MetaData title={"SignUp"} />
-      <div className='fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-green-100 to-slate-50'>
-        <Card className="w-[380px]">
+      <div className='fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-r from-green-600 via-slate-500 to-blue-500'>
+        <Card className="w-[380px] h-full md:h-fit rounded-none md:rounded-lg pt-10 md:pt-0">
           <CardHeader>
             <img className="w-24" src={Logo} alt="Byte logo" />
             <CardTitle className="text-2xl font-bold">Login</CardTitle>

@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { toast } from 'react-toastify';
-import ship from "@/assets/ship.jpg"
+import BackButton from '../layout/BackButton';
 
 const ShippingForm = () => {
     const navigate = useNavigate();
@@ -37,13 +37,11 @@ const ShippingForm = () => {
     };
 
     return (
-        <div className="fixed inset-0 z-10 flex bg-[#E2E8F0]">
-            <div className="relative flex items-center justify-center flex-1">
-                <img src={ship} alt="Shipping image" className="-rotate-90" />
-            </div>
-            <Card className="h-full w-[450px] z-10 rounded-none flex-shrink-0">
+        <div className="fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-r from-green-600 via-slate-500 to-blue-500">
+            <BackButton />
+            <Card className="w-[380px] h-full md:h-fit rounded-none md:rounded-lg pt-20 md:pt-0">
                 <CardHeader>
-                    <CardTitle>Shipping Information</CardTitle>
+                    <CardTitle className="text-3xl md:text-base">Shipping Information</CardTitle>
                     <CardDescription>Enter your address for shipping</CardDescription>
                 </CardHeader>
                 <CardContent>

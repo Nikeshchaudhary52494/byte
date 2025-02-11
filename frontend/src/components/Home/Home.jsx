@@ -24,31 +24,32 @@ const Home = () => {
   }, [dispatch, page]);
 
   return (
-    <div>
+    <>
       <MetaData title={"Home"} />
 
       {page < 2 && <Hero />}
-
       <div className="relative">
         <div className="absolute top-4 left-4">
           <FilterModal />
         </div>
-        {status === STATUSES.LOADING ? (
-          <ProductsSkeletons />
-        ) : (
-          <div
-            className="flex mx-auto max-w-[80%] justify-center flex-wrap" >
-            {products && products.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            )
-            )}
-          </div>)}
-      </div>
-      <div className="mt-10">
-        <ProductPagination currentPage={page} totalPages={totalPages} />
+        <div className="max-w-6xl p-10 mx-auto">
+          {status === STATUSES.LOADING ? (
+            <ProductsSkeletons />
+          ) : (
+            <div
+              className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4" >
+              {products && products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              )
+              )}
+            </div>)}
+        </div>
+        <div className="mt-10">
+          <ProductPagination currentPage={page} totalPages={totalPages} />
+        </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 }
 

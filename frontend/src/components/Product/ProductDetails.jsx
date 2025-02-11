@@ -88,7 +88,7 @@ const ProductDetails = () => {
           <div className="md:w-[50%] w-full">
             <MyCarousel images={product?.images} />
           </div>
-          <div className="p-5 mx-auto border shadow-lg bg-secondary xs:w-3/4 md:w-1/2">
+          <div className="p-5 mx-auto md:border md:shadow-lg md:bg-secondary md:w-1/2">
             <h2 className="text-2xl" >{product.name}</h2>
             <p onDoubleClick={handleDoubleClick} className="pb-4 mb-4 text-sm font-thin border-b text-slate-600 border-slate-400">#{product._id}</p>
             <RatingStars rating={product.ratings} />

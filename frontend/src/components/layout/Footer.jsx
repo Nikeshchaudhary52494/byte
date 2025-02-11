@@ -6,8 +6,8 @@ import { Separator } from "../ui/separator";
 
 const Footer = () => {
   return (
-    <div className="p-10 mt-40 space-y-4 bg-secondary">
-      <div className="flex justify-between">
+    <div className="w-full p-10 mt-40 space-y-4 bg-secondary">
+      <div className="flex flex-col justify-between gap-10 md:flex-row">
         <div>
           <img src={Logo} alt="logo" className="w-20" />
           <p className="text-sm">nikeshchaudhary52494@gmail.com</p>

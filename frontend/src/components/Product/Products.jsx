@@ -30,18 +30,21 @@ const Products = () => {
         return <ProductsSkeletons />
 
     return (
-        <div className="relative">
+        <div className="relative pb-20">
             <MetaData title={"Products"} />
             <div className="absolute top-4 left-4">
                 <FilterModal />
             </div>
-            {products.length === 0 ? <NoProductAvailable /> : <div
-                class="flex mx-auto max-w-[80%] justify-center flex-wrap"
-            >
-                {products && products.map((product) => (
-                    <ProductCard key={product._id} product={product} />
-                ))}
-            </div>}
+            <div className='max-w-6xl p-10 mx-auto'>
+                {products.length === 0 ?
+                    <NoProductAvailable /> :
+                    <div class="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+                        {products && products.map((product) => (
+                            <ProductCard key={product._id} product={product} />
+                        ))}
+                    </div>
+                }
+            </div>
             <div className="mt-10">
                 <ProductPagination currentPage={page} totalPages={totalPages} />
             </div>
