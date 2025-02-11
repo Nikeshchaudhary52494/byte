@@ -6,8 +6,8 @@ const ProductsSkeletons = () => {
         <div
             className="flex mx-auto max-w-[80%] justify-center flex-wrap" >
             {
-                [...Array(8)].map(() => (
-                    <Skeleton className="m-4 h-[400px] w-[250px] rounded-sm" />
+                [...Array(8)].map((_, index) => (
+                    <Skeleton key={index} className="m-4 h-[400px] w-[250px] rounded-sm" />
                 ))
             }
         </div>

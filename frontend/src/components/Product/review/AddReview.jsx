@@ -3,15 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addReview, getProductDetails, resetError, resetIsReviewAdded } from '../../../slices/productSlice/productsSlice';
 import { toast } from 'react-toastify';
 import { STATUSES } from '../../../store/statuses';
-import Loader from '../../layout/Loader/Loader';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 
-const AddReview = ({ toggle, setToggle, productId }) => {
+const AddReview = ({ productId }) => {
     const dispatch = useDispatch();
     const { error, isReviewAdded, status } = useSelector((state) => state.products)
 
     const [review, setReview] = useState({
         comment: '',
-        rating: 0,
+        rating: 5,
     })
     const { comment, rating } = review;
     const handleInputChange = (e) => {
@@ -25,15 +29,15 @@ const AddReview = ({ toggle, setToggle, productId }) => {
         }
     };
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log({ rating, comment, productId })
         dispatch(addReview({ rating, comment, productId }));
 
     };
     useEffect(() => {
         if (error) {
-            toast.error(error);
+            toast.error("Error adding review");
             dispatch(resetError());
         }
         if (isReviewAdded) {
@@ -42,68 +46,45 @@ const AddReview = ({ toggle, setToggle, productId }) => {
         }
     }, [error, dispatch, isReviewAdded, productId]);
 
-    if (status === STATUSES.LOADING)
-        return <Loader />
-
     return (
-        <>
-            <div className='flex flex-col w-full justify-center items-center bg-slate-800 p-5 max-w-lg rounded-md'>
-                <div className='flex items-center justify-between w-full max-w-md m-2'>
-                    <p className='font-bold text-white'>Add review</p>
-                    <button
-                        className='bg-red-500 w-10 h-10 p-1 rounded-full focus:outline-none flex items-center justify-center'
-                        onClick={() => setToggle(!toggle)}
-                    >
-                        x
-                    </button>
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button>Add Review</Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Add Review</DialogTitle>
+                    <DialogDescription>Add a product review</DialogDescription>
+                </DialogHeader>
 
-                </div>
+                <form onSubmit={handleSubmit} className="flex flex-col w-full max-w-md gap-2">
+                    <Label htmlFor="comment">Comment</Label>
+                    <Textarea
+                        id="comment"
+                        name="comment"
+                        placeholder="Write review"
+                        required
+                        value={review.comment}
+                        onChange={handleInputChange}
+                    />
 
-                <form onSubmit={handleSubmit} className='max-w-md w-full'>
-                    <div className='mb-4'>
-                        <label
-                            htmlFor='comment'
-                            className='block text-gray-500 text-sm font-bold mb-2'
-                        >
-                            Comment
-                        </label>
-                        <textarea
-                            id='comment'
-                            name='comment'
-                            placeholder='Write review'
-                            value={comment}
-                            onChange={handleInputChange}
-                            className='resize-none w-full h-32 outline-none rounded-md p-2'
-                        />
-                    </div>
-                    <div className='mb-4'>
-                        <label
-                            htmlFor='rating'
-                            className='block text-gray-500 text-sm font-bold mb-2'
-                        >
-                            Rating
-                        </label>
-                        <input
-                            type='number'
-                            id='rating'
-                            name='rating'
-                            min='0'
-                            max='5'
-                            value={rating}
-                            onChange={handleInputChange}
-                            className='border rounded-md outline-none p-2'
-                        />
-                    </div>
-                    <button
-                        onClick={() => setToggle(!toggle)}
-                        type='submit'
-                        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                    >
-                        Submit Review
-                    </button>
+                    <Label htmlFor="rating">Rating</Label>
+                    <Input
+                        id="rating"
+                        name="rating"
+                        placeholder="rating"
+                        required
+                        type="number"
+                        value={review.rating}
+                        onChange={handleInputChange}
+                    />
+
+                    <Button type="submit">
+                        {status === STATUSES.LOADING ? "Creating..." : "Add review"}
+                    </Button>
                 </form>
-            </div>
-        </>
+            </DialogContent>
+        </Dialog>
     );
 };
 

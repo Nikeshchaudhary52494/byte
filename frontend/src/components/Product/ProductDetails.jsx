@@ -3,14 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { STATUSES } from '../../store/statuses';
 import { addToCart } from "../../slices/cartSlice/cartSlice"
 import { useParams } from "react-router-dom";
-import Loader from "../layout/Loader/Loader";
-import Carousel from "react-material-ui-carousel"
 import ReviewCard from "./review/ReviewCard"
 import AddReview from "./review/AddReview";
 import { toast } from 'react-toastify';
 import { getProductDetails } from "../../slices/productSlice/productsSlice";
 import MetaData from "../layout/MetaData";
 import RatingStars from "./review/RatingStars";
+import MyCarousel from "./MyCarousel";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import ProductDetailsSkeleton from "../Skeletons/ProductDetailsSkeleton";
 const ProductDetails = () => {
 
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -75,88 +77,77 @@ const ProductDetails = () => {
   }, [dispatch, id]);
 
   if (status === STATUSES.LOADING)
-    return <Loader />
+    return <ProductDetailsSkeleton />
 
   return (
     < >
       <MetaData title={"Details"} />
-      <div className="flex flex-col items-center justify-center max-w-5xl gap-10 p-4 m-5 mx-auto lg:flex-row lg:items-start lg:items-top">
+      <div className="flex flex-col max-w-6xl p-10 mx-auto">
 
-        {/* Carousel section */}
-        <div className=" md:w-1/2 w-[75%]" >
-          <div className=" md:w-1/2  mx-auto w-[75%] h-[60%] ">
-            <Carousel   >
-              {product.images && product.images.map((item, i) => (
-                <img className="h-[50vh] object-contain" key={item.url} src={item.url} alt="Product" />
-              ))}
-            </Carousel>
+        <div className="flex flex-col gap-10 md:flex-row">
+          <div className="md:w-[50%] w-full">
+            <MyCarousel images={product?.images} />
           </div>
-        </div>
+          <div className="p-5 mx-auto border shadow-lg bg-secondary xs:w-3/4 md:w-1/2">
+            <h2 className="text-2xl" >{product.name}</h2>
+            <p onDoubleClick={handleDoubleClick} className="pb-4 mb-4 text-sm font-thin border-b text-slate-600 border-slate-400">#{product._id}</p>
+            <RatingStars rating={product.ratings} />
+            <p className="pb-4 mb-4 border-b border-slate-400" >({product.numberOfReviews} Reviews)</p>
+            <h2 className="text-3xl font-bold text-orange-500">${product.price} <br /><p className="pb-4 mb-4 text-sm font-thin border-b text-slate-600 border-slate-400" > Including all taxes</p> </h2>
+            <div className="flex flex-col items-center">
 
-        {/* Details section */}
-        <div className="p-5 border shadow-lg scrollbar xs:w-3/4 md:w-1/2">
-          <h2 className="text-2xl" >{product.name}</h2>
-          <p onDoubleClick={handleDoubleClick} className="pb-4 mb-4 text-sm font-thin border-b text-slate-600 border-slate-400">#{product._id}</p>
-          <RatingStars rating={product.ratings} />
-          <p className="pb-4 mb-4 border-b border-slate-400" >({product.numberOfReviews} Reviews)</p>
-          <h2 className="text-3xl font-bold text-orange-500">${product.price} <br /><p className="pb-4 mb-4 text-sm font-thin border-b text-slate-600 border-slate-400" > Including all taxes</p> </h2>
-          <div className="flex flex-col items-center " >
-
-            {/* Add to cart-button */}
-            <div className="flex items-center ">
-              <button
-                className="p-4 w-5 h-[40px] grid place-content-center active:bg-slate-500 bg-slate-400 rounded-l-lg "
-                onClick={handelCountDecrease}
-              >-</button>
-              <input
-                className="border-y-2 h-[40px] text-center w-24 border-slate-400 outline-none  "
-                value={numberOfProduct}
-                type="text"
-              />
-              <button
-                className="p-4 w-5 h-[40px] active:bg-slate-500 bg-slate-400 rounded-r-lg grid place-content-center "
-                onClick={handelCountIncrease}
-              >+</button>
+              <div className="flex items-center gap-2">
+                <Button
+                  className="p-4 w-5 h-[40px] grid place-content-center active:bg-slate-500 bg-slate-400 rounded-l-lg "
+                  onClick={handelCountDecrease}
+                >-</Button>
+                <Input
+                  className="h-[40px] text-center w-24"
+                  value={numberOfProduct}
+                  readOnly
+                  type="text"
+                />
+                <Button
+                  className="p-4 w-5 h-[40px] active:bg-slate-500 bg-slate-400 rounded-r-lg grid place-content-center "
+                  onClick={handelCountIncrease}
+                >+</Button>
+              </div>
+              <Button
+                className="w-40 h-[40px] bg-cyan-500 rounded-3xl my-4 active:bg-cyan-600 duration-500"
+                onClick={() => {
+                  handelAddToCart(user._id, product._id, numberOfProduct);
+                }}
+              >Add to Cart</Button>
             </div>
-            <button
-              className="w-40 h-[40px] bg-cyan-500 rounded-3xl my-4 active:bg-cyan-600 duration-500"
-              onClick={() => {
-                handelAddToCart(user._id, product._id, numberOfProduct);
-              }}
-            >Add to Cart</button>
+            <p className="pb-4 mb-4 font-bold border-b border-slate-400">Status: <span className={`font-normal ${product.stock < 1 ? `text-red-400` : 'text-green-400'}`}>{`${product.stock < 1 ? `Out of Stock` : `Only ${product.stock} Unit left`}`}</span> </p>
+            <p><span className="text-2xl font-bold" >
+              Description:
+            </span> <br />
+              <span className="text-sm">{product.description}</span>
+            </p>
           </div>
-          <p className="pb-4 mb-4 font-bold border-b border-slate-400">Status: <span className={`font-normal ${product.stock < 1 ? `text-red-400` : 'text-green-400'}`}>{`${product.stock < 1 ? `Out of Stock` : `Only ${product.stock} Unit left`}`}</span> </p>
-          <p><span className="text-2xl font-bold" >
-            Description:
-          </span> <br />
-            <span className="text-sm">{product.description}</span>
-          </p>
         </div>
+        <div className="flex flex-col items-center justify-between w-3/4 max-w-3xl gap-2 p-4 mx-auto mt-32 mb-10 border-dashed lg:px-12 border-y sm:flex-row">
+          <h3 className="text-2xl font-medium text-center " >Reviews</h3>
+
+          <AddReview productId={product._id} />
+        </div>
+
+        {
+          product.reviews && product.reviews[0] ? (
+            <div className="flex flex-col items-center gap-5 md:grid md:grid-cols-2">
+              {product.reviews && product.reviews.map((review) =>
+                <ReviewCard key={review._id} review={review} />
+              )}
+            </div>
+          ) : (
+            <p className="mb-32 font-medium text-center text-red-400">
+              No Rerview Available
+            </p>
+          )
+        }
       </div >
 
-      <div className="flex flex-col items-center justify-between w-3/4 max-w-3xl gap-2 p-4 mx-auto mt-32 mb-10 border-dashed lg:px-12 border-y sm:flex-row">
-        <h3 className="text-2xl font-medium text-center " >Reviews</h3>
-
-        <button className="text-white  font-medium w-[200px] h-[40px] bg-blue-200 rounded-lg" onClick={handelAddReview}> Add Review</button>
-        <div className={`inset-0 z-10 fixed flex justify-center items-center bg-black backdrop-filter bg-opacity-50 backdrop-blur-md ${toggle ? `block` : `hidden`}`}>
-          <AddReview toggle={toggle} setToggle={setToggle} productId={product._id} />
-        </div>
-      </div>
-
-      {/* Review section */}
-      {
-        product.reviews && product.reviews[0] ? (
-          <div className="flex flex-col items-center justify-center gap-5 p-4 mb-20 ">
-            {product.reviews && product.reviews.map((review) =>
-              <ReviewCard review={review} />
-            )}
-          </div>
-        ) : (
-          <p className="mb-32 font-medium text-center text-red-400">
-            No Rerview Available
-          </p>
-        )
-      }
     </>
   )
 }
