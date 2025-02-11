@@ -2,19 +2,20 @@ import React from 'react'
 import { Link, useLocation } from "react-router-dom"
 import LoggedInComponenet from './LoginUserCart';
 import { useSelector } from 'react-redux';
+import cart from "@/assets/cart.webp"
 
 const Cart = () => {
-    const { isAuthenticated} = useSelector((state) => state.user)
+    const { isAuthenticated } = useSelector((state) => state.user)
 
     const location = useLocation()
 
     return (
-        <>
+        <div className='h-full pb-52'>
             {isAuthenticated ? (
                 <LoggedInComponenet />) : (
                 <div class="text-center  m-20 h-[50vh]">
                     <div class="grid  place-content-center">
-                        <img class="h-[150px]" src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90" alt="cartImage" />
+                        <img class="h-[150px]" src={cart} alt="cartImage" />
                     </div>
                     <h3 class="text-2xl m-5 text-black font-thin">
                         Missing Cart items?
@@ -27,7 +28,7 @@ const Cart = () => {
                     </Link>
                 </div>
             )}
-        </>
+        </div>
     )
 }
 

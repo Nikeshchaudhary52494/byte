@@ -18,16 +18,14 @@ const CategoriesList = () => {
 
     return (
         <>
-            {categoriesList.map((category) =>
+            {categoriesList.map(({ categoryName, Icon, color }) =>
                 <motion.div
-                    key={category.categoryName}
+                    key={categoryName}
                     whileHover={{ scale: 1.2 }}
-                    onClick={() => handleCategoryClick(category.categoryName)}
-                    className="w-[100px] mt-1 p-1 hover:shadow-lg cursor-pointer sm:border-none rounded-lg flex items-center flex-shrink-0 justify-center flex-col h-[100px]" >
-                    <img className="h-[75%]"
-                        src={category.imgAddress}
-                        alt={category.categoryName} />
-                    <p>{category.categoryName}</p>
+                    onClick={() => handleCategoryClick(categoryName)}
+                    className="w-[100px] mt-1 p-1 shadow-lg cursor-pointer sm:border-none rounded-lg flex items-center flex-shrink-0 justify-center flex-col h-[100px]" >
+                    <Icon color={color} size={28} />
+                    <p>{categoryName}</p>
                 </motion.div>
 
             )}

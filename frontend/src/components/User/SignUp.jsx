@@ -9,6 +9,10 @@ import { toast } from 'react-toastify'
 import Loader from '../layout/Loader/Loader'
 import { STATUSES } from '../../store/statuses'
 import MetaData from '../layout/MetaData'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Input } from '../ui/input'
+import { Label } from '../ui/label'
+import { Button } from '../ui/button'
 
 
 const SignUp = () => {
@@ -78,81 +82,86 @@ const SignUp = () => {
     return (
         <>
             <MetaData title={"SignUp"} />
-            <div className="bg-slate-900 flex flex-col items-center justify-center inset-0 z-10 fixed">
-                <div className="bg-slate-800 px-5 py-10 rounded-lg text-white">
-                    <div className="px-4" >
-                        <img className='w-24' src={Logo} alt="Byte logo" />
-                        <h3 className="text-xl mb-4 ">Sign UP</h3>
-                    </div>
-                    <form
-                        className="flex gap-4 text-black flex-col"
-                        onSubmit={handleSubmit} >
-                        <input
-                            required
-                            className="w-[300px ] outline-none p-2 m-2 rounded-md"
-                            type="text"
-                            name='name'
-                            placeholder='Name'
-                            value={user.name}
-                            onChange={registerDataChange} />
+            <div className='fixed inset-0 z-10 flex flex-col items-center justify-center bg-gradient-to-b from-green-100 to-slate-50'>
+                <Card>
+                    <CardHeader>
+                        <img className="w-24" src={Logo} alt="Byte logo" />
+                        <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
+                        <CardDescription>Continue account creation</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <form
+                            className="flex flex-col gap-4 text-black"
+                            onSubmit={handleSubmit}
+                        >
+                            <Label htmlFor='name'>Name</Label>
+                            <Input
+                                id="name"
+                                required
+                                className="w-[300px] outline-none p-2 m-2 rounded-md"
+                                type="text"
+                                name="name"
+                                placeholder="Name"
+                                value={user.name}
+                                onChange={registerDataChange}
+                            />
 
-                        <input
-                            required
-                            className="w-[300px ] outline-none p-2 m-2 rounded-md"
-                            type="email"
-                            name='email'
-                            placeholder='Email'
-                            value={user.email}
-                            onChange={registerDataChange} />
-
-                        <input
-                            required
-                            className="w-[300px ] outline-none p-2 m-2 rounded-md"
-                            type="password"
-                            name='password'
-                            placeholder='Password'
-                            value={user.password}
-                            onChange={registerDataChange} />
-                        <div className='flex justify-between border rounded-md bg-slate-700 mx-2 p-2 items-center'>
-
-                            <div className='w-14 h-14 rounded-full overflow-hidden'>
-                                <img className='object-cover w-full h-full'
-                                    src={avatarPreview}
-                                    alt="Avatar" />
+                            <Label htmlFor='email'>Email</Label>
+                            <Input
+                                id="email"
+                                required
+                                className="w-[300px] outline-none p-2 m-2 rounded-md"
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                value={user.email}
+                                onChange={registerDataChange}
+                            />
+                            <Label htmlFor='password'>Password</Label>
+                            <Input
+                                id="Password"
+                                required
+                                className="w-[300px] outline-none p-2 m-2 rounded-md"
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                value={user.password}
+                                onChange={registerDataChange}
+                            />
+                            <div className="flex items-center justify-between p-2 mx-2 border rounded-md bg-[#E7E6E9]">
+                                <div className="overflow-hidden rounded-full w-14 h-14">
+                                    <img
+                                        className="object-cover w-full h-full"
+                                        src={avatarPreview}
+                                        alt="Avatar"
+                                    />
+                                </div>
+                                <label
+                                    htmlFor="fileInput"
+                                    className="px-4 py-2 text-white bg-blue-500 rounded-md cursor-pointer"
+                                >
+                                    <span className="hidden md:inline">Choose File</span>
+                                    <span className="md:hidden">Upload</span>
+                                </label>
+                                <input
+                                    id="fileInput"
+                                    className="hidden"
+                                    type="file"
+                                    name="image"
+                                    accept="image/*"
+                                    onChange={registerDataChange}
+                                />
                             </div>
-                            <label for="fileInput" class="cursor-pointer bg-blue-500 
-                            text-white py-2 px-4  rounded-md">
-                                <span class="hidden md:inline">Choose File</span>
-                                <span class="md:hidden">Upload</span>
-                            </label>
-                            <input
-                                id='fileInput'
-                                className='hidden '
-                                type="file"
-                                name="image"
-                                accept="image/*"
-                                onChange={registerDataChange} />
-                        </div>
-                        <motion.input
-                            type="submit"
-                            whileTap={{ scale: 0.9 }}
-                            transition={{ duration: .5 }}
-                            className="w-[300px] m-2 h-[40px] hover:bg-teal-700 bg-teal-600 rounded-lg" />
-                    </form>
-                    <Link to="/user/login">
-                        <p className="text-sm ">
-                            Already a user? Login
-                        </p>
-                    </Link>
-                </div >
-                <div className='w-full max-w-sm px-4'>
-                    <Link to="/" >
-                        <button class="text-white  p-2 mt-5"  >Go to Home</button>
-                    </Link>
-                </div>
-            </div >
+                            <Button type="submit">Sign up</Button>
+                        </form>
+                        <Link to="/user/login">
+                            <p className="text-sm">Already a user? Login</p>
+                        </Link>
+                    </CardContent>
+                </Card>
+            </div>
         </>
-    )
+    );
 }
 
 export default SignUp
